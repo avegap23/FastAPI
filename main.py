@@ -8,9 +8,9 @@ app.include_router(users.router)
 @app.get("/")
 async def root(nombre: str = ""):
     if nombre == "":
-        return {"mensaje": "Hola " + nombre}
-    else:
         return {"mensaje": "Hola mundo"}
+    else:
+        return {"mensaje": "Hola " + nombre}
 
 @app.get("/url")
 async def url():
