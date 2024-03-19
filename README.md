@@ -24,7 +24,7 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-## Start server with main.py
+## 4. Start server with main.py
 ```
 uvicorn main:app --reload
 ```
