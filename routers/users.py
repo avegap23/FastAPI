@@ -30,6 +30,10 @@ async def usersjson():
 async def users():
     return users_fake_db
 
+@router.get("/user/{id}")
+async def userById(id: int):
+    return search_user_by_id(id)
+
 @router.post("/user")
 async def newUser(user: User):
     if any(user.id == user_stored.id for user_stored in users_fake_db):
@@ -37,3 +41,9 @@ async def newUser(user: User):
     
     users_fake_db.append(user)
     return user
+
+def search_user_by_id(id: int):
+    for user in users_fake_db:
+        if user.id == id:
+            return user
+    return {"error": "no se encuentra el usuario"}
