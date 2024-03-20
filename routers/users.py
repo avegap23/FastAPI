@@ -48,7 +48,16 @@ async def deleteUser(id: int):
     if type(found_user) == User:
         users_fake_db.remove(found_user)
         return {"mensaje": "usuario eliminado correctamente"}
-    return {"error": "No se puede eliminar el usuario con el id"}
+    return {"error": "no se puede eliminar el usuario"}
+
+@router.put("/user")
+async def update(user: User):
+    found_user = search_user_by_id(user.id)
+    if type(found_user) == User:
+        found_user.username = user.username
+        found_user.email = user.email
+        return {"mensaje": "usuario actualizado correctamente"}
+    return {"error": "no se puede actualizar el usuario"}
 
 def search_user_by_id(id: int):
     for user in users_fake_db:
