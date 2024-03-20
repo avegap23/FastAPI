@@ -1,4 +1,4 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException, status
 from pydantic import BaseModel
 
 router = APIRouter()
@@ -26,7 +26,7 @@ users_fake_db = [
 async def usersjson():
     return user_list
 
-@router.get("/users")
+@router.get("/users", response_model=list[User])
 async def users():
     return users_fake_db
 
@@ -34,11 +34,11 @@ async def users():
 async def userById(id: int):
     return search_user_by_id(id)
 
-@router.post("/user")
+@router.post("/user/new", status_code=status.HTTP_201_CREATED, response_model=User)
 async def newUser(user: User):
     if any(user.id == user_stored.id for user_stored in users_fake_db):
-        return {"error": "id ya usado"}
-    
+        # return {"error": "id ya usado"}
+        raise HTTPException(status.HTTP_409_CONFLICT, detail="id ya usado")
     users_fake_db.append(user)
     return user
 
@@ -48,19 +48,22 @@ async def deleteUser(id: int):
     if type(found_user) == User:
         users_fake_db.remove(found_user)
         return {"mensaje": "usuario eliminado correctamente"}
-    return {"error": "no se puede eliminar el usuario"}
+    # return {"error": "no se puede eliminar el usuario"}
+    raise HTTPException(status.HTTP_404_NOT_FOUND, detail="no se encuentra el usuario para eliminar")
 
-@router.put("/user")
+@router.put("/user/edit")
 async def update(user: User):
     found_user = search_user_by_id(user.id)
     if type(found_user) == User:
         found_user.username = user.username
         found_user.email = user.email
         return {"mensaje": "usuario actualizado correctamente"}
-    return {"error": "no se puede actualizar el usuario"}
+    # return {"error": "no se puede actualizar el usuario"}
+    raise HTTPException(status.HTTP_404_NOT_FOUND, detail="no se encuentra el usuario para actualizar")
 
 def search_user_by_id(id: int):
     for user in users_fake_db:
         if user.id == id:
             return user
-    return {"error": "no se encuentra el usuario"}
+    # return {"error": "no se encuentra el usuario"}
+    raise HTTPException(status.HTTP_404_NOT_FOUND, detail="no se encuentra el usuario")
