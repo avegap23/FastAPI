@@ -42,6 +42,14 @@ async def newUser(user: User):
     users_fake_db.append(user)
     return user
 
+@router.delete("/user/{id}")
+async def deleteUser(id: int):
+    found_user = search_user_by_id(id)
+    if type(found_user) == User:
+        users_fake_db.remove(found_user)
+        return {"mensaje": "usuario eliminado correctamente"}
+    return {"error": "No se puede eliminar el usuario con el id"}
+
 def search_user_by_id(id: int):
     for user in users_fake_db:
         if user.id == id:
