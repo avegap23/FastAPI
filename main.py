@@ -6,18 +6,18 @@ app = FastAPI()
 app.include_router(users.router)
 
 @app.get("/")
-async def root(nombre: str = ""):
-    if nombre == "":
+async def root(name: str = ""):
+    if name == "":
         ## /
-        return {"mensaje": "Hola mundo"}
+        return {"message": "Hello world!"}
     else:
-        ## /?nombre=[nombre]
-        return {"mensaje": "Hola " + nombre}
+        ## /?name=[name]
+        return {"message": "Hello " + name + "!"}
 
 @app.get("/url")
 async def url():
     return {"url": "http://iesazarquiel.es"}
 
-@app.get("/cuadrado/{numero}")
-async def cuadrado(numero: int = 0):
-    return {"cuadrado": numero*numero}
+@app.get("/squarenumber/{number}")
+async def squarenumber(number: int = 0):
+    return {"square number": number*number}

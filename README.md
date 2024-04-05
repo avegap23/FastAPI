@@ -1,9 +1,9 @@
-## 1. Crear entorno virtual:
+## 1. Create virtual environment:
 ```
 py -m venv .venv
 ```
 
-## 2. Activar entorno virtual:
+## 2. Activate virtual environment:
 Powershell:
 ```
 .\.venv\Scripts\Activate.ps1
@@ -19,12 +19,12 @@ Linux/macOS:
 source .venv/bin/activate
 ```
 
-## 3. Instalar requirements (dependencias):
+## 3. Install requirements:
 ```
 pip install -r requirements.txt
 ```
 
-## 4. Iniciar servidor con main.py:
+## 4. Start server with main.py:
 ```
 uvicorn main:app --reload
 ```
